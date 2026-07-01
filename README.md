@@ -38,7 +38,7 @@ If the auto-installer fails or you prefer to manage the binaries yourself, you c
 
 **1. Download the Piper Engine**
 - Go to the [Piper GitHub Releases page](https://github.com/rhasspy/piper/releases).
-- Download the latest `.tar.gz` or `.zip` file for your operating system (`piper_windows_amd64.zip`, `piper_macos_x64.tar.gz`, etc.).
+- Download the latest `.tar.gz` or `.zip` file for your operating system (ex. `piper_windows_amd64.zip`).
 - Extract the folder to a safe location on your computer.
 - In Obsidian, go to the **Piper TTS Settings** and enter the absolute path to the extracted `piper` executable. *(If it's in your system `PATH`, leave this blank).*
 

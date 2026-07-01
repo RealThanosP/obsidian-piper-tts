@@ -1,8 +1,5 @@
 # Obsidian Piper TTS
 
-![Obsidian Piper TTS](https://img.shields.io/badge/Obsidian-Piper%20TTS-blue)
-![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20Mac%20%7C%20Linux-lightgrey)
-
 A high-performance, completely offline, privacy-respecting Text-to-Speech (TTS) plugin for Obsidian. By leveraging the ultra-fast [Piper](https://github.com/rhasspy/piper) neural engine, this plugin allows you to convert your markdown notes into natural-sounding audio and play them back seamlessly within an integrated sidebar player.
 
 Created by **RealThanosP**.
@@ -22,39 +19,38 @@ Created by **RealThanosP**.
 
 ## 🛠️ Installation & Setup
 
-Since Piper TTS runs locally, you need to download the core engine and voice models to your computer. Don't worry, it only takes a few minutes!
-
-### Step 1: Install the Plugin
 1. Open Obsidian and go to **Settings > Community Plugins**.
 2. Turn off Safe Mode (if it isn't already).
-3. Search for **Piper TTS** (or manually install via [BRAT](https://github.com/TfTHacker/obsidian42-brat) using `RealThanosP/obsidian-piper-tts`).
-4. Enable the plugin.
+3. Search for **Piper TTS**.
+4. Click **Install** and then **Enable** the plugin.
 
-### Step 2: Download the Piper Engine
-1. Go to the [Piper GitHub Releases page](https://github.com/rhasspy/piper/releases).
-2. Download the latest `.tar.gz` or `.zip` file for your operating system:
-   - **Windows:** `piper_windows_amd64.zip`
-   - **MacOS:** Download the official [Piper - Neural TTS]() from the App Store.
-   - **Mac (Intel):** `piper_macos_x64.tar.gz`
-   - **Linux:** `piper_linux_x86_64.tar.gz`
-3. Extract the downloaded folder to a safe location on your computer (e.g., `C:\Program Files\piper` or `/usr/local/bin/piper`).
-4. In Obsidian, go to the **Piper TTS Settings** and enter the absolute path to the extracted `piper` executable. (e.g., `C:\Program Files\piper\piper.exe` or `/usr/local/bin/piper/piper`). 
-   *(Note: If you have added piper to your system `PATH`, you can just leave this field blank!)*
+### First-Time Setup (One-Click Auto-Install)
+When you enable the plugin for the first time, an onboarding wizard will appear. 
+- Click **"Start Setup"**, and the plugin will automatically download everything it needs to run completely offline (the Piper TTS engine, FFmpeg for MP3 support, and the default English voice model).
+- The download may take a couple of minutes depending on your internet connection. 
+- Once finished, you are ready to start generating audio!
 
-### Step 3: Download a Voice Model
-Piper uses `.onnx` model files to generate voices.
-1. Browse the vast collection of voices at the official [Hugging Face Repository](https://huggingface.co/rhasspy/piper-voices/tree/main).
-2. Navigate to your language (e.g., `en/en_US/` for English).
-3. Download **both** the `.onnx` file AND its corresponding `.json` file (e.g., `en_US-amy-medium.onnx` and `en_US-amy-medium.onnx.json`).
-4. Save them in a folder on your computer.
-5. In Obsidian, go to **Piper TTS Settings**, click **"+ Add Language"**, type the 3-letter language code (e.g., `eng` for English, `ell` for Greek), and paste the absolute path to the `.onnx` file.
+*Note: If you want to use custom voice models or languages, you can still add them manually in the plugin settings by downloading `.onnx` and `.json` files from the [Hugging Face Repository](https://huggingface.co/rhasspy/piper-voices/tree/main).*
 
-### Step 4 (Optional): Install FFmpeg for MP3 Support
-By default, the plugin outputs `.wav` files. If you prefer smaller `.mp3` files, you must install FFmpeg.
+### Manual Installation
+
+If the auto-installer fails or you prefer to manage the binaries yourself, you can install the dependencies manually:
+
+**1. Download the Piper Engine**
+- Go to the [Piper GitHub Releases page](https://github.com/rhasspy/piper/releases).
+- Download the latest `.tar.gz` or `.zip` file for your operating system (`piper_windows_amd64.zip`, `piper_macos_x64.tar.gz`, etc.).
+- Extract the folder to a safe location on your computer.
+- In Obsidian, go to the **Piper TTS Settings** and enter the absolute path to the extracted `piper` executable. *(If it's in your system `PATH`, leave this blank).*
+
+**2. Download a Voice Model**
+- Browse the official [Hugging Face Repository](https://huggingface.co/rhasspy/piper-voices/tree/main).
+- Download **both** the `.onnx` file AND its corresponding `.json` file.
+- In Obsidian **Piper TTS Settings**, click **"+ Add Language"**, type the language code, and paste the absolute path to the `.onnx` file.
+
+**3. Install FFmpeg (Optional for MP3)**
 - **Windows:** Download from [gyan.dev](https://www.gyan.dev/ffmpeg/builds/) or install via winget: `winget install ffmpeg`
 - **Mac:** Install via Homebrew: `brew install ffmpeg`
 - **Linux:** Install via package manager: `sudo apt install ffmpeg`
-Once installed, change the "Output format" setting in the plugin to MP3.
 
 ---
 

@@ -1,7 +1,7 @@
 {
   "id": "obsidian-piper-tts",
   "name": "Piper TTS",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "minAppVersion": "1.0.0",
   "description": "Local text-to-speech using the Piper TTS engine. Converts your Markdown notes to audio and plays them in a sidebar player.",
   "author": "RealThanosP",

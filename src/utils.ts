@@ -1,6 +1,7 @@
 import { spawn } from 'child_process';
 import * as fs from 'fs';
 import * as path from 'path';
+import { FileSystemAdapter } from 'obsidian';
 
 /**
  * Resolves a binary path:
@@ -56,8 +57,8 @@ export function getSampleRate(onnxPath: string): number {
 	const configPath = onnxPath + '.json';
 	try {
 		const raw = fs.readFileSync(configPath, 'utf8');
-		const config = JSON.parse(raw);
-		return (config?.audio?.sample_rate as number) ?? 22050;
+		const config = JSON.parse(raw) as { audio?: { sample_rate?: number } };
+		return config?.audio?.sample_rate ?? 22050;
 	} catch {
 		return 22050;
 	}
@@ -75,8 +76,11 @@ export function ensureDirSync(dirPath: string): void {
  * Uses the internal `basePath` property of the Adapter.
  */
 export function getVaultBasePath(app: import('obsidian').App): string {
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	return (app.vault.adapter as any).basePath as string;
+	const adapter = app.vault.adapter;
+	if (adapter instanceof FileSystemAdapter) {
+		return adapter.getBasePath();
+	}
+	throw new Error('Not running on local file system');
 }
 
 /**

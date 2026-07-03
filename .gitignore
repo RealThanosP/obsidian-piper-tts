@@ -5,3 +5,4 @@ data.json
 bin/
 .env
 .DS_Store
+release-notes-v1.0.0.md

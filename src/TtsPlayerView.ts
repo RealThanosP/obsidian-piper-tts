@@ -1,5 +1,5 @@
 import { ItemView, WorkspaceLeaf, Notice, setIcon } from "obsidian";
-import * as path from "path";
+import * as fs from "fs";
 import type PiperTtsPlugin from "./main";
 import { formatTime } from "./utils";
 
@@ -75,7 +75,7 @@ export class TtsPlayerView extends ItemView {
 
   private currentBlobUrl: string | null = null;
 
-  async setNoAudio(noteTitle: string): Promise<void> {
+  setNoAudio(noteTitle: string): void {
     this.currentFile = null;
     this.currentTitle = noteTitle;
     this.audioEl.pause();
@@ -110,7 +110,6 @@ export class TtsPlayerView extends ItemView {
       // Obsidian's app:// protocol often fails to handle byte-range requests
       // properly for MP3 files, causing Chrome to wildly miscalculate duration.
       // Loading it as a Blob guarantees perfect duration parsing in memory.
-      const fs = require("fs");
       const buffer = await fs.promises.readFile(filePath);
       const blob = new Blob([buffer], { type: "audio/mpeg" });
 
@@ -148,13 +147,13 @@ export class TtsPlayerView extends ItemView {
   private buildUI(container: HTMLElement): void {
     // Hidden audio element
     this.audioEl = container.createEl("audio");
-    this.audioEl.style.display = "none";
+    this.audioEl.setCssStyles({ display: "none" });
     this.wireAudioEvents();
 
     // ── Player ────────────────────────────────────────────────────────────
     this.playerEl = container.createDiv({ cls: "tts-player-inner" });
     // Always show the player
-    this.playerEl.style.display = "flex";
+    this.playerEl.setCssStyles({ display: "flex" });
 
     // Note title
     this.titleEl = this.playerEl.createDiv({ cls: "tts-player-title" });
@@ -269,7 +268,7 @@ export class TtsPlayerView extends ItemView {
     });
     setIcon(this.regenBtn.createSpan(), "refresh-cw");
     this.regenBtnText = this.regenBtn.createSpan({ text: " Regenerate", cls: "tts-btn-text" });
-    this.regenBtn.addEventListener("click", async () => {
+    this.regenBtn.onclick = async () => {
       const file = this.app.workspace.getActiveFile();
       if (!file) {
         new Notice("No active file to regenerate.");
@@ -277,7 +276,7 @@ export class TtsPlayerView extends ItemView {
       }
       const text = await this.app.vault.read(file);
       await this.plugin.generateTts(file, text);
-    });
+    };
 
     this.deleteBtn = actionsRow.createEl("button", {
       cls: "tts-btn tts-btn-action tts-btn-danger",
@@ -285,10 +284,9 @@ export class TtsPlayerView extends ItemView {
     });
     setIcon(this.deleteBtn.createSpan(), "trash-2");
     this.deleteBtn.createSpan({ text: " Delete audio", cls: "tts-btn-text" });
-    this.deleteBtn.addEventListener("click", async () => {
+    this.deleteBtn.onclick = async () => {
       if (!this.currentFile) return;
       try {
-        const fs = require("fs");
         await fs.promises.unlink(this.currentFile);
         this.audioEl.pause();
         this.audioEl.removeAttribute("src");
@@ -298,7 +296,7 @@ export class TtsPlayerView extends ItemView {
       } catch (e) {
         new Notice(`Could not delete file: ${(e as Error).message}`);
       }
-    });
+    };
   }
 
   // ─── Audio event wiring ────────────────────────────────────────────────────
@@ -393,7 +391,7 @@ export class TtsPlayerView extends ItemView {
     this.speedBtns.forEach(b => b.disabled = !hasAudio);
     
     // Toggle action buttons
-    this.deleteBtn.style.display = hasAudio ? "flex" : "none";
+    this.deleteBtn.setCssStyles({ display: hasAudio ? "flex" : "none" });
     
     // Update Regen/Generate button
     if (hasAudio) {

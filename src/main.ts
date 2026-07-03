@@ -1,4 +1,4 @@
-import { Plugin, Notice, MarkdownView, TFile } from "obsidian";
+import { Plugin, Notice, TFile } from "obsidian";
 import * as path from "path";
 import * as fs from "fs";
 import { franc } from "franc-min";
@@ -112,7 +112,6 @@ export default class PiperTtsPlugin extends Plugin {
   }
 
   onunload(): void {
-    this.app.workspace.detachLeavesOfType(TTS_PLAYER_VIEW_TYPE);
     console.log("[piper-tts] Plugin unloaded.");
   }
 
@@ -177,10 +176,7 @@ export default class PiperTtsPlugin extends Plugin {
       return;
     }
 
-    const { franc } = require("franc-min");
-    const detectedLang = franc(cleanText);
-
-    const matchedModel = this.settings.languageModels.find(
+    const detectedLang = franc(cleanText);    const matchedModel = this.settings.languageModels.find(
       (m) => m.languageCode.toLowerCase() === detectedLang.toLowerCase(),
     );
 
@@ -229,7 +225,7 @@ export default class PiperTtsPlugin extends Plugin {
 
       const leaf = this.app.workspace.getLeavesOfType(TTS_PLAYER_VIEW_TYPE)[0];
       const view = leaf?.view as unknown as TtsPlayerView | undefined;
-      view?.loadAudio(audioPath, file.basename);
+      if (view) await view.loadAudio(audioPath, file.basename);
     } catch (err) {
       notice.hide();
       const message = (err as Error).message ?? String(err);

@@ -24,7 +24,6 @@
     "@types/adm-zip": "^0.5.8",
     "@types/node": "^20.0.0",
     "@types/tar": "^6.1.13",
-    "builtin-modules": "^3.3.0",
     "esbuild": "^0.21.0",
     "typescript": "^5.4.0"
   },

@@ -1,4 +1,4 @@
-import { Modal, App, Notice, FileSystemAdapter } from 'obsidian';
+import { Modal, App, FileSystemAdapter } from 'obsidian';
 import PiperTtsPlugin from './main';
 import * as fs from 'fs';
 import * as path from 'path';
@@ -28,8 +28,7 @@ export class OnboardingModal extends Modal {
 		const btnDiv = contentEl.createDiv({ attr: { style: 'margin-top: 30px; text-align: center;' } });
 		
 		const installBtn = btnDiv.createEl('button', { text: 'One-Click Install', cls: 'mod-cta' });
-		installBtn.style.padding = '10px 30px';
-		installBtn.style.fontSize = '16px';
+		installBtn.setCssStyles({ padding: '10px 30px', fontSize: '16px' });
 
 		this.statusEl = contentEl.createEl('p', { attr: { style: 'margin-top: 20px; font-weight: bold; text-align: center; color: var(--text-accent);' } });
 		this.progressBar = contentEl.createEl('progress', { attr: { max: '100', value: '0', style: 'width: 100%; display: none;' } });
@@ -38,20 +37,20 @@ export class OnboardingModal extends Modal {
 			if (this.isInstalling) return;
 			this.isInstalling = true;
 			installBtn.disabled = true;
-			this.progressBar.style.display = 'block';
+			this.progressBar.setCssStyles({ display: 'block' });
 
 			try {
 				await this.runInstallation();
 				this.statusEl.textContent = '✅ Installation Complete! You can close this window.';
-				this.progressBar.style.display = 'none';
+				this.progressBar.setCssStyles({ display: 'none' });
 				
 				this.plugin.settings.firstRun = false;
 				await this.plugin.saveSettings();
 				
 				const finishBtn = btnDiv.createEl('button', { text: 'Close & Start Listening' });
-				finishBtn.style.marginLeft = '10px';
+				finishBtn.setCssStyles({ marginLeft: '10px' });
 				finishBtn.onclick = () => this.close();
-				installBtn.style.display = 'none';
+				installBtn.setCssStyles({ display: 'none' });
 
 			} catch (e) {
 				this.statusEl.textContent = '❌ Installation Failed. Please check the developer console.';
@@ -75,7 +74,7 @@ export class OnboardingModal extends Modal {
 		}
 		
 		const vaultPath = adapter.getBasePath();
-		const pluginDir = path.join(vaultPath, '.obsidian', 'plugins', 'obsidian-piper-tts');
+		const pluginDir = path.join(vaultPath, this.app.vault.configDir, 'plugins', 'piper-tts');
 		const binDir = path.join(pluginDir, 'bin');
 		const modelsDir = path.join(pluginDir, 'models');
 

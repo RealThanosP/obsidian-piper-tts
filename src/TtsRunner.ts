@@ -1,8 +1,6 @@
-import { spawn, ChildProcess } from 'child_process';
+import { spawn } from 'child_process';
 import * as fs from 'fs';
 import type { PiperTtsSettings } from './settings';
-import { getSampleRate } from './utils';
-
 /**
  * TtsRunner — wraps the Piper CLI (and optional FFmpeg) as a Node.js child process.
  *
@@ -141,7 +139,6 @@ export class TtsRunner {
 
 			// Clean up temp WAV file
 			try {
-				const fs = require('fs');
 				if (fs.existsSync(wavPath)) fs.unlinkSync(wavPath);
 			} catch (e) {
 				console.warn('[piper-tts] Failed to delete temp wav file', e);

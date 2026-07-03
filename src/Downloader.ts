@@ -1,10 +1,7 @@
 import * as fs from 'fs';
-import * as path from 'path';
 import * as https from 'https';
 import AdmZip from 'adm-zip';
 import * as tar from 'tar';
-import { Notice } from 'obsidian';
-
 export class Downloader {
 	static async downloadFile(url: string, destPath: string, onProgress?: (pct: number) => void): Promise<void> {
 		return new Promise((resolve, reject) => {
@@ -28,7 +25,7 @@ export class Downloader {
 
 				totalBytes = parseInt(response.headers['content-length'] || '0', 10);
 
-				response.on('data', (chunk) => {
+				response.on('data', (chunk: Buffer) => {
 					receivedBytes += chunk.length;
 					if (totalBytes > 0 && onProgress) {
 						onProgress(Math.round((receivedBytes / totalBytes) * 100));

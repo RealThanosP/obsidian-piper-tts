@@ -62,7 +62,7 @@ export class PiperTtsSettingTab extends PluginSettingTab {
 		containerEl.empty();
 
 		// ── Piper binary ──────────────────────────────────────────────────────
-		new Setting(containerEl).setName('Piper TTS engine').setHeading();
+		new Setting(containerEl).setName('Engine').setHeading();
 
 		new Setting(containerEl)
 			.setName('Piper executable path')
@@ -144,8 +144,7 @@ export class PiperTtsSettingTab extends PluginSettingTab {
 								renderLanguageModels();
 							})
 					);
-				setting.settingEl.style.borderTop = '1px solid var(--background-modifier-border)';
-				setting.settingEl.style.paddingTop = '1em';
+				setting.settingEl.setCssStyles({ borderTop: '1px solid var(--background-modifier-border)', paddingTop: '1em' });
 			});
 
 			new Setting(modelsContainer as HTMLElement)
@@ -177,7 +176,6 @@ export class PiperTtsSettingTab extends PluginSettingTab {
 				slider
 					.setLimits(0, 20, 1)
 					.setValue(this.plugin.settings.speakerIndex)
-					.setDynamicTooltip()
 					.onChange(async (value) => {
 						this.plugin.settings.speakerIndex = value;
 						await this.plugin.saveSettings();
@@ -191,7 +189,6 @@ export class PiperTtsSettingTab extends PluginSettingTab {
 				slider
 					.setLimits(0, 2, 0.05)
 					.setValue(this.plugin.settings.sentenceSilence)
-					.setDynamicTooltip()
 					.onChange(async (value) => {
 						this.plugin.settings.sentenceSilence = value;
 						await this.plugin.saveSettings();
